@@ -1,0 +1,43 @@
+.attendance-student-container 
+{
+    text-align: center;
+    border: 1px solid green;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    margin: 15px 0;
+}
+.attendance-student-button-holder
+{
+    display: block;
+    height: 60px;
+    margin-bottom: 5px;
+}
+.attendance-student-button-holder button
+{
+  display: inline;
+}
+.attendance-student-picture
+{
+    width: 60%;
+    margin: 25px auto 10px;
+    display: block;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+}
+.attendance-student-button
+{
+    width: 44px;
+    height: 50px;
+    margin: 10px;
+    cursor: pointer;
+}
+.attendance-controlls-container
+{
+    float: right;
+}
+.modal-report-list
+{
+    list-style: none;
+}

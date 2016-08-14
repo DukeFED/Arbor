@@ -1,0 +1,57 @@
+<div class="attendance-container container">
+    <div ng-repeat="x in students" class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+    	<div class="attendance-student-container">
+	        <img class="attendance-student-picture" ng-src="{{x.image}}" on-error-src="images/unknown.jpg" alt="" />
+	        <span>{{x.firstName}} </span><span>{{x.lastName}}</span>
+	        <div class="attendance-student-button-holder">
+	            <img ng-click="isOnClass(x)" ng-show="x.attendanceMark.present || (!x.attendanceMark.present && !x.attendanceMark.late && !x.attendanceMark.absent)" src="./images/buttons/yes.png" class="attendance-student-button" />
+	            <img ng-click="wasLate(x)" ng-show="x.attendanceMark.late || (!x.attendanceMark.present && !x.attendanceMark.late && !x.attendanceMark.absent)" src="./images/buttons/time.png" class="attendance-student-button" />
+	            <img ng-click="notOnClass(x)" ng-show="x.attendanceMark.absent || (!x.attendanceMark.present && !x.attendanceMark.late && !x.attendanceMark.absent)" src="./images/buttons/no.png" class="attendance-student-button" />
+	            <span ng-show="x.attendanceMark.present">Present</span>
+	            <span ng-show="x.attendanceMark.late">Late</span>
+	            <span ng-show="x.attendanceMark.absent">Absent</span>
+	        </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+	<div class="attendance-controlls-container col-lg-3 col-md-4 col-sm-6 col-xs-12">
+		<p>Present: {{attendance.present.length}}</p>
+		<p>Late: {{attendance.late.length}}</p>
+		<p>Absent: {{attendance.absent.length}}</p>
+		<p>Unmarked: {{attendance.unassigned}}</p>
+		<button ng-click="resetAttendance()" class="btn btn-default">Reset</button>
+		<button class="btn btn-info" type="button" data-toggle="modal" data-target="#myModal">Done</button>
+
+	</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+      	<div class="modal-content">
+	        <div class="modal-header">
+	          	<button type="button" class="close" data-dismiss="modal">&times;</button>
+	          	<h2 class="modal-title">Students</h4>
+	        </div>
+	        <div class="modal-body">
+	        	<h3>Present:</h3>
+	          		<ul>
+	          			<li class="modal-report-list" ng-repeat="pre in attendance.present">{{pre}}</li>
+	          		</ul>
+	          	<h3>Late:</h3>
+	          		<ul>
+	          			<li class="modal-report-list" ng-repeat="lat in attendance.late">{{lat}}</li>
+	          		</ul>
+	          	<h3>Absent:</h3>
+	          		<ul>
+	          			<li class="modal-report-list" ng-repeat="abs in attendance.absent">{{abs}}</li>
+	          		</ul>
+	        </div>
+	        <div class="modal-footer">
+	          	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        </div>
+      	</div>
+    </div>
+</div>
