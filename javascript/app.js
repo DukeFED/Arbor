@@ -7,6 +7,30 @@
                 method: 'GET',
                 url: './students.json'
             }).then(function successCallback(response) {
+
+                var validateInput = function(input){
+                    if(input.length)
+                        {
+                            for(var i = 0 ; i<input.length ; i++)
+                            {
+                                if(!(input[i].firstName && input[i].lastName && input[i].image  && input[i].attendanceMark && input[i].attendanceMark.hasOwnProperty('present') && input[i].attendanceMark.hasOwnProperty('late') && input[i].attendanceMark.hasOwnProperty('absent')))
+                                {
+                                    //wrong JSON
+                                    window.location.href = 'http://www.google.com';
+                                }
+                            }
+                        }
+                    else
+                    {
+                        //wrong JSON
+                        window.location.href = 'http://www.google.com';
+                    }
+                };
+
+                //we check if json is set correctly, if not
+                //we redirect to error page
+                validateInput(response.data);
+
                 $scope.students = response.data;
 
                 //tracking attendance of all students
@@ -24,15 +48,21 @@
                 };
 
                 $scope.checkStudentAttendance = function(student) {
-                    if (student.attendanceMark.present) {
-                        $scope.attendance.present.push(student.firstName + ' ' + student.lastName);
-                        $scope.attendance.unassigned--;
-                    } else if (student.attendanceMark.late) {
-                        $scope.attendance.late.push(student.firstName + ' ' + student.lastName);
-                        $scope.attendance.unassigned--;
-                    } else if (student.attendanceMark.absent) {
-                        $scope.attendance.absent.push(student.firstName + ' ' + student.lastName);
-                        $scope.attendance.unassigned--;
+                    if(student.attendanceMark)
+                    {
+                        if (student.attendanceMark.present) {
+                            $scope.attendance.present.push(student.firstName + ' ' + student.lastName);
+                            $scope.attendance.unassigned--;
+                        } else if (student.attendanceMark.late) {
+                            $scope.attendance.late.push(student.firstName + ' ' + student.lastName);
+                            $scope.attendance.unassigned--;
+                        } else if (student.attendanceMark.absent) {
+                            $scope.attendance.absent.push(student.firstName + ' ' + student.lastName);
+                            $scope.attendance.unassigned--;
+                        }
+                    }
+                    else
+                    {//JSON invalid
                     }
                 };
 
@@ -43,9 +73,9 @@
                         $scope.students[i].attendanceMark.late = false;
                         $scope.students[i].attendanceMark.absent = false;
                     }
-                    $scope.attendance.present = 0;
-                    $scope.attendance.late = 0;
-                    $scope.attendance.absent = 0;
+                    $scope.attendance.present = [];
+                    $scope.attendance.late = [];
+                    $scope.attendance.absent = [];
                     $scope.attendance.unassigned = i;
                 };
 
@@ -73,7 +103,6 @@
                 };
 
                 //initiate
-                //reseting counts unassigned as well
                 $scope.countUnassigned();
                 $scope.countAllAttendance();
 
@@ -89,7 +118,8 @@
             };
         })
         .directive('onErrorSrc', function() {
-            console.log(123);
+        //checks if we can open image
+        //if not, replaces with default
             return {
                 link: function(scope, element, attrs) {
                   element.bind('error', function() {
