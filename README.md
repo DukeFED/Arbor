@@ -1,6 +1,6 @@
 # Class attendance tracker
 
-Track who is on class, absent or late.
+Track who is on class, absent or late. It uses JSON file to load students.
 
 ## Usage
 
